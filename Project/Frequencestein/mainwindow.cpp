@@ -9,13 +9,18 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     isSoundActive(false),
     isFrequencyActive(false),
+    isLightActive(false),
     timeForPlot(QTime::currentTime()),
     QMainWindow(parent),
+    lightSensor(new QLightSensor()),
+    lightReader(new QLightReading()),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupGraph();
     setupTimer();
+
+    lightReader = lightSensor->reading();
 
     //this->move(0,0);
     //this->resize(QApplication::desktop()->availableGeometry().width(), QApplication::desktop()->availableGeometry().height());
@@ -142,6 +147,13 @@ void MainWindow::realtimeDataSlot()
         elementCount = 0;
     }
 
+    if(isLightActive)
+    {
+
+        ui->lightLabelInfo->setText(QString::number(lightSensor->reading()->lux()));
+        //ui->graphic3->
+    }
+
     ui->soundInfoLabel->setText(QString::number(data)+"dB");
     lastPointKey = key;
 }
@@ -182,5 +194,27 @@ void MainWindow::on_startButton2_clicked()
     {
         ui->label2->setText("Input off");
         isFrequencyActive = false;
+    }
+}
+
+void MainWindow::on_startButton3_clicked()
+{
+    if(!isLightActive)
+    {
+        isLightActive = true;
+        lightSensor->start();
+        lightSensor->reading()->lux();
+        //lightReader->lightLevel();
+        /*
+        timer->start(0); // Interval 0 means to refresh as fast as possible
+        audioInterface.start();
+        ui->label2->setText("Input on");
+        isFrequencyActive = true;*/
+    }
+    else
+    {
+        isLightActive = false;
+        //ui->label2->setText("Input off");
+        //isFrequencyActive = false;
     }
 }

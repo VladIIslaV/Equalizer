@@ -6,6 +6,10 @@
 #include <QAudioRecorder>
 #include <QTimer>
 #include <complex>
+#include <QAmbientLightSensor>
+#include <QAmbientLightReading>
+#include <QLightSensor>
+#include <QLightReading>
 #include "qcustomplot.h"
 #include "audiointerface.h"
 #include "fastfouriertransform.h"
@@ -30,18 +34,21 @@ private:
 
     bool isSoundActive;
     bool isFrequencyActive;
+    bool isLightActive;
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
     AudioInterface audioInterface;
     QTime timeForPlot;
     QCPBars* frequencyBars;
-
+    QLightSensor* lightSensor;
+    QLightReading* lightReader;
 public slots:
     void realtimeDataSlot();
 private slots:
     void on_startButton1_clicked();
     void on_startButton2_clicked();
+    void on_startButton3_clicked();
 };
 
 #endif // MAINWINDOW_H
