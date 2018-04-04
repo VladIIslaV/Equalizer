@@ -27,6 +27,7 @@ private:
 
     void releaseSoundDiagram(double, double);
     void releaseFrequencyBars(QVector<double>, QVector<double>);
+    void soundControlActivate();
 
     bool isSoundActive;
     bool isFrequencyActive;
@@ -40,8 +41,8 @@ private:
 public slots:
     void realtimeDataSlot();
 private slots:
-    void on_startButton1_clicked();
-    void on_startButton2_clicked();
+    void on_startAmplitudeButton_clicked();
+    void on_startFrequencyButton_clicked();
 };
 
 #endif // MAINWINDOW_H

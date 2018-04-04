@@ -30,17 +30,17 @@ MainWindow::~MainWindow()
 void MainWindow::setupGraph()
 {
     //sound volume graphic
-    ui->graphic1->addGraph(); // blue line
-    ui->graphic1->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-    ui->graphic1->axisRect()->setupFullAxesBox();
-    ui->graphic1->yAxis->setRange(-100, 100);
+    ui->graphicAmplitude->addGraph(); // blue line
+    ui->graphicAmplitude->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+    ui->graphicAmplitude->axisRect()->setupFullAxesBox();
+    ui->graphicAmplitude->yAxis->setRange(-100, 100);
 
     //sound frequency bars
     //ui->graphic2->removePlottable(0);
-    frequencyBars = new QCPBars(ui->graphic2->xAxis, ui->graphic2->yAxis);
+    frequencyBars = new QCPBars(ui->graphicFrequency->xAxis, ui->graphicFrequency->yAxis);
     //frequencyBars->setData(x,y);
     frequencyBars->setWidth(1);
-    ui->graphic2->addPlottable(frequencyBars);
+    ui->graphicFrequency->addPlottable(frequencyBars);
     QPen pen;
     pen.setWidthF(1);
     pen.setColor(QColor(Qt::black));
@@ -48,11 +48,10 @@ void MainWindow::setupGraph()
     frequencyBars->setBrush(QColor(205,100,0, 150));
     frequencyBars->setPen(pen);
 
-    ui->graphic2->axisRect()->setupFullAxesBox();
-    ui->graphic2->xAxis->setRange(0, 16);
-    ui->graphic2->yAxis->setRange(0, 20);
+    ui->graphicFrequency->axisRect()->setupFullAxesBox();
+    ui->graphicFrequency->xAxis->setRange(0, 16);
+    ui->graphicFrequency->yAxis->setRange(0, 20);
 }
-
 
 void MainWindow::setupTimer()
 {
@@ -62,22 +61,22 @@ void MainWindow::setupTimer()
 
 void MainWindow::releaseSoundDiagram(double x, double y)
 {
-    ui->graphic1->graph(0)->addData(x, y);
+    ui->graphicAmplitude->graph(0)->addData(x, y);
     // rescale value (vertical) axis to fit the current data:
     // make key axis range scroll with the data (at a constant range size of 8):
-    ui->graphic1->xAxis->setRange(x, 4, Qt::AlignRight);
-    ui->graphic1->graph(0)->rescaleValueAxis();
-    ui->graphic1->replot();
+    ui->graphicAmplitude->xAxis->setRange(x, 4, Qt::AlignRight);
+    ui->graphicAmplitude->graph(0)->rescaleValueAxis();
+    ui->graphicAmplitude->replot();
 }
 
 void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
 {
     //sound frequency bars
-    ui->graphic2->removePlottable(0);
-    frequencyBars = new QCPBars(ui->graphic2->xAxis, ui->graphic2->yAxis);
+    ui->graphicFrequency->removePlottable(0);
+    frequencyBars = new QCPBars(ui->graphicFrequency->xAxis, ui->graphicFrequency->yAxis);
     frequencyBars->setData(x,y);
     frequencyBars->setWidth(1);
-    ui->graphic2->addPlottable(frequencyBars);
+    ui->graphicFrequency->addPlottable(frequencyBars);
     QPen pen;
     pen.setWidthF(1);
     pen.setColor(QColor(Qt::black));
@@ -85,8 +84,9 @@ void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
     frequencyBars->setBrush(QColor(205,100,0, 150));
     frequencyBars->setPen(pen);
 
-    ui->graphic2->axisRect()->setupFullAxesBox();
-    ui->graphic2->replot();
+    ui->graphicFrequency->axisRect()->setupFullAxesBox();
+    ui->graphicFrequency->yAxis->setRange(0, 64, Qt::AlignCenter);
+    ui->graphicFrequency->replot();
 }
 
 static double lastPointKey = 0;
@@ -96,26 +96,26 @@ void MainWindow::realtimeDataSlot()
     int N = 16;
     static int elementCount = 0;
 
+    double data = audioInterface.getValue()*500;
+    //double data = 500*log(audioInterface.getValue()+1);
+
     //data that will be ploted
-    if (key - lastPointKey <= 0.005) // at most add point every 2 ms
+    if (key - lastPointKey <= 0.0002) // at most add point every 2 ms
     {
         return;
     }
-
-    double data = audioInterface.getValue()*500;
-    //double data = 500*log(audioInterface.getValue()+1);
 
     if(isSoundActive)
     {
         releaseSoundDiagram(key, data);
     }
 
-
     static QVector<double> X(N), Y(N);
-    if(elementCount < N)
+    if(elementCount <= N+1)
     {
         X[elementCount] = elementCount;
         Y[elementCount] = data;
+        //cout << "Y[" << elementCount << "]: " << data << endl;
         elementCount++;
     }
     if(elementCount == N-1)
@@ -135,10 +135,8 @@ void MainWindow::realtimeDataSlot()
             Y[i] = Youtf[i];
         }
 
-        if(isFrequencyActive)
-        {
-            releaseFrequencyBars(X, Y);
-        }
+        releaseFrequencyBars(X, Y);
+
         elementCount = 0;
     }
 
@@ -147,16 +145,18 @@ void MainWindow::realtimeDataSlot()
 }
 
 
-void MainWindow::on_startButton1_clicked()
+void MainWindow::soundControlActivate()
 {
     if(!isSoundActive)
     {
         timeForPlot.restart();
         lastPointKey = 0;
-        ui->graphic1->graph()->data()->clear();
+        ui->graphicAmplitude->graph()->data()->clear();
         audioInterface.start();
         timer->start(0); // Interval 0 means to refresh as fast as possible
-        ui->startButton1->setText("STOP");
+        ui->startAmplitudeButton->setText("STOP");
+        ui->startFrequencyButton->setText("STOP");
+        ui->label2->setText("Input on");
         isSoundActive = true;
     }
     else
@@ -164,23 +164,19 @@ void MainWindow::on_startButton1_clicked()
         timer->stop();
         audioInterface.stop();
         ui->soundInfoLabel->setText("Press START button");
-        ui->startButton1->setText("START");
+        ui->startAmplitudeButton->setText("START");
+        ui->startFrequencyButton->setText("STOP");
+        ui->label2->setText("Input off");
         isSoundActive = false;
     }
 }
 
-void MainWindow::on_startButton2_clicked()
+void MainWindow::on_startAmplitudeButton_clicked()
 {
-    if(!isFrequencyActive)
-    {
-        timer->start(0); // Interval 0 means to refresh as fast as possible
-        audioInterface.start();
-        ui->label2->setText("Input on");
-        isFrequencyActive = true;
-    }
-    else
-    {
-        ui->label2->setText("Input off");
-        isFrequencyActive = false;
-    }
+    soundControlActivate();
+}
+
+void MainWindow::on_startFrequencyButton_clicked()
+{
+    soundControlActivate();
 }
