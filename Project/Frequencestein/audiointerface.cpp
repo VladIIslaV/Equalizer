@@ -78,15 +78,16 @@ qint64 AudioInfo::readData(char *data, qint64 maxlen)
 
 qint64 AudioInfo::writeData(const char *data, qint64 len)
 {
+    const unsigned char *ptr = reinterpret_cast<const unsigned char *>(data);
+    int rawDataIterator = 0;
+    for(int i = 0; i < m_format.sampleSize(); i++)
     {
-        const unsigned char *ptr = reinterpret_cast<const unsigned char *>(data);
-        for(int i = 0; i < m_format.sampleSize(); i++)
-        {
-            quint32 value = qAbs(qFromLittleEndian<qint32>(ptr));
-            cout << "i: " << value << endl;
-            ptr+=4;
-        }
+        quint32 value = qAbs(qFromLittleEndian<qint32>(ptr));
+        rawData[rawDataIterator] = value;
+        rawDataIterator++;
+        ptr+=4;
     }
+    emit update();
     /*
     if (m_maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
@@ -146,9 +147,9 @@ qint64 AudioInfo::writeData(const char *data, qint64 len)
 AudioInterface::AudioInterface()
 {
     QAudioFormat format;
-    format.setSampleRate(44000);
+    format.setSampleRate(44000); // 44 kHz
     format.setChannelCount(1);
-    format.setSampleSize(32);
+    format.setSampleSize(16); // 8 or 16 is standard for many systems
     format.setSampleType(QAudioFormat::SignedInt);
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setCodec("audio/pcm");
@@ -163,15 +164,14 @@ AudioInterface::AudioInterface()
 
     audioInfo.reset(new AudioInfo(format));
 
-    //this->start();
-    //connect(audioInfo.data(), &QIODevice::update, [this]() {
-    //    m_canvas->setLevel(m_audioInfo->level());
-    //});
-    //audioInput = new QAudioInput(format);
+    sampleSize = format.sampleSize();
+    audioInfo->rawData = new quint32[sampleSize];
 }
 
 AudioInterface::~AudioInterface()
 {
+    stop();
+    delete [](audioInfo->rawData);
     this->stop();
 }
 
@@ -192,4 +192,11 @@ qreal AudioInterface::getValue()
 {
     return audioInfo->level();
 }
+
+quint32* AudioInterface::getSample()
+{
+    return audioInfo->rawData;
+}
+
+
 

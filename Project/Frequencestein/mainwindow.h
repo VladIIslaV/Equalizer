@@ -25,7 +25,7 @@ private:
     void setupGraph();
     void setupTimer();
 
-    void releaseSoundDiagram(double, double);
+    void updateSoundDiagram(double, double);
     void releaseFrequencyBars(QVector<double>, QVector<double>);
     void soundControlActivate();
     void setupWaveform(QVector<double> x, QVector<double> y);
@@ -39,8 +39,12 @@ private:
     QTime timeForPlot;
     QCPBars* frequencyBars;
 
+    void ActivateSoundSystem();
+    void DeactivateSoundSystem();
+
 public slots:
     void realtimeDataSlot();
+    void realtimeDataSlot2();
 private slots:
     void on_startAmplitudeButton_clicked();
     void on_startFrequencyButton_clicked();
