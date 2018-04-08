@@ -78,6 +78,16 @@ qint64 AudioInfo::readData(char *data, qint64 maxlen)
 
 qint64 AudioInfo::writeData(const char *data, qint64 len)
 {
+    {
+        const unsigned char *ptr = reinterpret_cast<const unsigned char *>(data);
+        for(int i = 0; i < m_format.sampleSize(); i++)
+        {
+            quint32 value = qAbs(qFromLittleEndian<qint32>(ptr));
+            cout << "i: " << value << endl;
+            ptr+=4;
+        }
+    }
+    /*
     if (m_maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
         const int channelBytes = m_format.sampleSize() / 8;
@@ -129,15 +139,15 @@ qint64 AudioInfo::writeData(const char *data, qint64 len)
         m_level = qreal(maxValue) / m_maxAmplitude;
     }
 
-    emit update();
+    emit update();*/
     return len;
 }
 
 AudioInterface::AudioInterface()
 {
     QAudioFormat format;
-    format.setSampleRate(8000);
-    format.setChannelCount(2);
+    format.setSampleRate(44000);
+    format.setChannelCount(1);
     format.setSampleSize(32);
     format.setSampleType(QAudioFormat::SignedInt);
     format.setByteOrder(QAudioFormat::LittleEndian);
@@ -169,6 +179,7 @@ void AudioInterface::start()
 {
     audioInfo->start();
     audioInput->start(audioInfo.data());
+    cout << "processed microseconds: " << audioInput->periodSize() << endl;
 }
 
 void AudioInterface::stop()

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <math.h>
+#include <QtMath>
 
 #include "FFT/headers/qfouriertransformer.h"
 #include <iostream>
@@ -75,7 +76,7 @@ void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
     ui->graphicFrequency->removePlottable(0);
     frequencyBars = new QCPBars(ui->graphicFrequency->xAxis, ui->graphicFrequency->yAxis);
     frequencyBars->setData(x,y);
-    frequencyBars->setWidth(1);
+    frequencyBars->setWidth(0.1);
     ui->graphicFrequency->addPlottable(frequencyBars);
     QPen pen;
     pen.setWidthF(1);
@@ -85,9 +86,26 @@ void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
     frequencyBars->setPen(pen);
 
     ui->graphicFrequency->axisRect()->setupFullAxesBox();
+    ui->graphicFrequency->xAxis->rescale();
     ui->graphicFrequency->yAxis->setRange(0, 64, Qt::AlignCenter);
     ui->graphicFrequency->replot();
 }
+
+void MainWindow::setupWaveform(QVector<double> x, QVector<double> y)
+{
+  // create graph and assign data to it:
+  ui->graphicWaveform->addGraph();
+  ui->graphicWaveform->graph(0)->setData(x, y);
+  // give the axes some labels:
+  ui->graphicWaveform->xAxis->setLabel("x");
+  ui->graphicWaveform->yAxis->setLabel("y");
+  // set axes ranges, so we see all data:
+  ui->graphicWaveform->xAxis->rescale();
+  ui->graphicWaveform->yAxis->setRange(-1, 1);
+  ui->graphicWaveform->replot();
+}
+
+
 
 static double lastPointKey = 0;
 void MainWindow::realtimeDataSlot()
@@ -96,26 +114,25 @@ void MainWindow::realtimeDataSlot()
     int N = 16;
     static int elementCount = 0;
 
-    double data = audioInterface.getValue()*500;
-    //double data = 500*log(audioInterface.getValue()+1);
 
-    //data that will be ploted
-    if (key - lastPointKey <= 0.0002) // at most add point every 2 ms
-    {
-        return;
-    }
 
-    if(isSoundActive)
-    {
-        releaseSoundDiagram(key, data);
-    }
+    const int sampleSize = 32;
+    static QQueue<double> sample;
+    static QQueue<double> keys;
 
-    static QVector<double> X(N), Y(N);
+    double amplitude = audioInterface.getValue();
+
+    const double frequency = 44000;
+    double interval = 1/frequency;
+
+    double data = amplitude * 500;
+
+    ////////
+    /*static QVector<double> X(N), Y(N);
     if(elementCount <= N+1)
     {
-        X[elementCount] = elementCount;
+        X[elementCount] = elementCount / (double)N;
         Y[elementCount] = data;
-        //cout << "Y[" << elementCount << "]: " << data << endl;
         elementCount++;
     }
     if(elementCount == N-1)
@@ -138,7 +155,50 @@ void MainWindow::realtimeDataSlot()
         releaseFrequencyBars(X, Y);
 
         elementCount = 0;
+    }*/
+    ///////
+
+
+
+    //data that will be ploted
+    if (key - lastPointKey <= interval)
+    {
+        return;
     }
+    //cout << "key - lastPointKey: " << key - lastPointKey << endl;
+    interval = key - lastPointKey;
+
+    if(sample.size() < sampleSize)
+    {
+        sample.push_back(amplitude);
+        keys.push_back(key);
+    }
+    else
+    {
+        sample.pop_front();
+        sample.push_back(amplitude);
+        keys.pop_front();
+        keys.push_back(key);
+        double w = 2*(M_PI)*(1/interval);
+        QVector<double> x(sampleSize), y(sampleSize);
+        for(int i = 0; i < sampleSize; i++)
+        {
+            x[i] = i;
+            y[i] = sample[i] * qSin((w * i)/(sampleSize));
+        }
+        setupWaveform(x, y);
+    }
+
+
+
+    //double data = 500*log(audioInterface.getValue()+1);
+
+    if(isSoundActive)
+    {
+        releaseSoundDiagram(key, data);
+    }
+
+
 
     ui->soundInfoLabel->setText(QString::number(data)+"dB");
     lastPointKey = key;
