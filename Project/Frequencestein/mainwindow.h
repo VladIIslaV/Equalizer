@@ -29,8 +29,10 @@ private:
     void setupGraph();
     void setupTimer();
 
-    void releaseSoundDiagram(double, double);
+    void updateSoundDiagram(double, double);
     void releaseFrequencyBars(QVector<double>, QVector<double>);
+    void soundControlActivate();
+    void setupWaveform(QVector<double> x, QVector<double> y);
 
     bool isSoundActive;
     bool isFrequencyActive;
@@ -43,12 +45,18 @@ private:
     QCPBars* frequencyBars;
     QLightSensor* lightSensor;
     QLightReading* lightReader;
+
+    void ActivateSoundSystem();
+    void DeactivateSoundSystem();
+
 public slots:
     void realtimeDataSlot();
+    void realtimeDataSlot2();
 private slots:
-    void on_startButton1_clicked();
-    void on_startButton2_clicked();
     void on_startButton3_clicked();
+    void on_startButton3_clicked();
+    void on_startAmplitudeButton_clicked();
+    void on_startFrequencyButton_clicked();
 };
 
 #endif // MAINWINDOW_H

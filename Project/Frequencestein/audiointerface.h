@@ -21,6 +21,8 @@ public:
     qint64 readData(char *data, qint64 maxlen) override;
     qint64 writeData(const char *data, qint64 len) override;
 
+    quint32* rawData;
+
 private:
     const QAudioFormat m_format;
     quint32 m_maxAmplitude = 0;
@@ -35,14 +37,16 @@ class AudioInterface
 {
 private:
     QScopedPointer<QAudioInput> audioInput;
-    QScopedPointer<AudioInfo> audioInfo;
 public:
+    QScopedPointer<AudioInfo> audioInfo;
     qreal level = 0.0;
+    int sampleSize;
     AudioInterface();
     ~AudioInterface();
     void start();
     void stop();
     qreal getValue();
+    quint32* getSample();
 };
 
 #endif // AUDIOINTERFACE_H
