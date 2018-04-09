@@ -39,7 +39,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="usesScrollButtons">
        <bool>true</bool>
@@ -56,7 +56,7 @@
       <property name="tabBarAutoHide">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="amplitudePage">
+      <widget class="QWidget" name="soundPage">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 127);
 </string>
@@ -65,32 +65,31 @@
         <string>Sound</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0" colspan="2">
-         <widget class="QCustomPlot" name="graphicAmplitude" native="true">
-        <item row="2" column="0">
+        <item row="0" column="0" colspan="2">
+         <widget class="QCustomPlot" name="graphic1" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QLabel" name="soundInfoLabel">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>Press start</string>
+           <string>TextLabel</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="startAmplitudeButton">
+        <item row="1" column="1">
+         <widget class="QPushButton" name="startButton1">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>START</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QCustomPlot" name="graphicWaveform" native="true">
-          <property name="autoFillBackground">
-           <bool>false</bool>
+           <string>PushButton</string>
           </property>
          </widget>
         </item>
@@ -105,7 +104,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0" colspan="2">
-         <widget class="QCustomPlot" name="graphicFrequency" native="true">
+         <widget class="QCustomPlot" name="graphic2" native="true">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
@@ -117,17 +116,17 @@
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>Press start</string>
+           <string>TextLabel</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="startFrequencyButton">
+         <widget class="QPushButton" name="startButton2">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>START</string>
+           <string>PushButton</string>
           </property>
          </widget>
         </item>
