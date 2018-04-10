@@ -68,9 +68,28 @@ void MainWindow::setupTimer()
     //connect(timer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
 }
 
+<<<<<<< HEAD
 // Probably we should divide all releases for different diagrams.
 // We have to look performance when amplitude and frequency
 // diagrams work together.
+=======
+void MainWindow::updateSoundDiagram(double x, double y)
+{
+    ui->graphicAmplitude->graph(0)->addData(x, y);
+    // rescale value (vertical) axis to fit the current data:
+    // make key axis range scroll with the data (at a constant range size of 8):
+    ui->graphicAmplitude->xAxis->setRange(x, 1, Qt::AlignRight);
+    ui->graphicAmplitude->yAxis->rescale(true);
+    ui->graphicAmplitude->replot();
+
+    /*ui->graphicWaveform->graph(0)->addData(x, y);
+    ui->graphicWaveform->graph(1)->addData(x, -y);
+    ui->graphicWaveform->xAxis->setRange(x, 10, Qt::AlignRight);
+    ui->graphicWaveform->yAxis->rescale();
+    ui->graphicWaveform->replot();*/
+}
+
+>>>>>>> Only amplitude reamined.
 void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
 {
     //sound frequency bars
