@@ -53,8 +53,8 @@ public slots:
     void realtimeDataSlot();
     void realtimeDataSlot2();
 private slots:
-    void on_startButton3_clicked();
-    void on_startButton3_clicked();
+    //void on_startButton3_clicked();
+    //void on_startButton3_clicked();
     void on_startAmplitudeButton_clicked();
     void on_startFrequencyButton_clicked();
 };

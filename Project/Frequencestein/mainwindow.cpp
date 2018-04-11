@@ -91,12 +91,12 @@ void MainWindow::updateSoundDiagram(double x, double y)
     ui->graphicAmplitude->xAxis->setRange(x, 1, Qt::AlignRight);
     ui->graphicAmplitude->yAxis->rescale(true);
     ui->graphicAmplitude->replot();
-
+/*
     ui->graphicWaveform->graph(0)->addData(x, y);
     ui->graphicWaveform->graph(1)->addData(x, -y);
     ui->graphicWaveform->xAxis->setRange(x, 10, Qt::AlignRight);
     ui->graphicWaveform->yAxis->rescale();
-    ui->graphicWaveform->replot();
+    ui->graphicWaveform->replot();*/
 }
 
 void MainWindow::releaseFrequencyBars(QVector<double> x, QVector<double> y)
@@ -146,7 +146,7 @@ void MainWindow::realtimeDataSlot()
 
 
 
-    const int sampleSize = 32;
+    const int sampleSize = 32/8;
     static QQueue<double> sample;
     static QQueue<double> keys;
 
@@ -227,18 +227,12 @@ void MainWindow::realtimeDataSlot()
         //releaseSoundDiagram(key, data);
     }
 
-
-
     if(isLightActive)
     {
 
-        ui->lightLabelInfo->setText(QString::number(lightSensor->reading()->lux()));
+        //ui->lightLabelInfo->setText(QString::number(lightSensor->reading()->lux()));
         //ui->graphic3->
     }
-
-
-
-
 
     ui->soundInfoLabel->setText(QString::number(data)+"dB");
     lastPointKey = key;
