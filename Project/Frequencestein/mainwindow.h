@@ -28,7 +28,6 @@ private:
     void updateSoundDiagram(double, double);
     void releaseFrequencyBars(QVector<double>, QVector<double>);
     void soundControlActivate();
-    void setupWaveform(QVector<double> x, QVector<double> y);
 
     bool isSoundActive;
     bool isFrequencyActive;
