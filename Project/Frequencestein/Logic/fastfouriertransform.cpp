@@ -1,19 +1,25 @@
 #include "fastfouriertransform.h"
 
-FastFourierTransform::FastFourierTransform()
+FastFourierTransform::FastFourierTransform(int inSampleSize)
 {
+    this->sampleSize = inSampleSize;
+    tempImage = new QVector<std::complex<double>>(inSampleSize);
+}
 
+FastFourierTransform::~FastFourierTransform()
+{
+    delete tempImage;
 }
 
 QVector<std::complex<double>>* FastFourierTransform::CombineResults(int n, QVector<std::complex<double>>* b, QVector<std::complex<double>>* c)
 {
-    QVector<std::complex<double>>* image = new QVector<std::complex<double>>(n);
+    tempImage = new QVector<std::complex<double>>(sampleSize);
     for (int  i = 0; i < n / 2; i++)
     {
-        (*image)[2 * i] = (*b)[i];
-        (*image)[2 * i + 1] = (*c)[i];
+        (*tempImage)[2 * i] = (*b)[i];
+        (*tempImage)[2 * i + 1] = (*c)[i];
     }
-    return image;
+    return tempImage;
 }
 
 QVector<std::complex<double>>* FastFourierTransform::BPF(QVector<std::complex<double>>* a, bool minus){
@@ -30,21 +36,21 @@ QVector<std::complex<double>>* FastFourierTransform::BPF(QVector<std::complex<do
     return CombineResults(n, BPF(&b, minus), BPF(&c, minus));
 }
 
-void FastFourierTransform::Draw(QVector<double>* y, int N)
+void FastFourierTransform::Draw(QVector<double>* y)
 {
-    QVector<double> X_f(N);
-    QVector<double> Y_f(N);
-    QVector<std::complex<double>> F(N);
+    QVector<double> X_f(sampleSize);
+    QVector<double> Y_f(sampleSize);
+    QVector<std::complex<double>> F(sampleSize);
 
-    for(int i = 0; i < N; i++)
+    for(int i = 0; i < sampleSize; i++)
     {
         F[i] = std::complex<double>{(*y)[i], 0};//myEquationComplex(i*2*M_PI/(N-1));
     }
     F = *BPF(&F);
-    for(int i = 0; i < N; i++)
+    for(int i = 0; i < sampleSize; i++)
     {
         X_f[i] = i;
-        F[i] = std::complex<double> {F[i].real()/N, F[i].imag()/N};
+        F[i] = std::complex<double> {F[i].real()/sampleSize, F[i].imag()/sampleSize};
         (*y)[i] = sqrt(pow(F[i].real(), 2) + pow(F[i].imag(), 2));
     }
 }

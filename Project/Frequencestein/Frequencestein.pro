@@ -28,46 +28,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     qcustomplot.cpp \
-    audiointerface.cpp \
-    fastfouriertransform.cpp \
-    FFT/sources/qcomplexnumber.cpp \
-    FFT/sources/qfouriercalculator.cpp \
-    FFT/sources/qfourierfixedcalculator.cpp \
-    FFT/sources/qfouriertransformer.cpp \
-    FFT/sources/qfouriervariablecalculator.cpp \
-    FFT/sources/qwindowfunction.cpp
+    Hardware/audiointerface.cpp \
+    Logic/fastfouriertransform.cpp \
+    View/audioamplitudevizualizer.cpp \
+    View/audiofrequencyvizualizer.cpp
 
 HEADERS += \
         mainwindow.h \
     qcustomplot.h \
-    audiointerface.h \
-    fastfouriertransform.h \
-    FFT/fftreal/Array.h \
-    FFT/fftreal/Array.hpp \
-    FFT/fftreal/def.h \
-    FFT/fftreal/DynArray.h \
-    FFT/fftreal/DynArray.hpp \
-    FFT/fftreal/FFTReal.h \
-    FFT/fftreal/FFTReal.hpp \
-    FFT/fftreal/FFTRealFixLen.h \
-    FFT/fftreal/FFTRealFixLen.hpp \
-    FFT/fftreal/FFTRealFixLenParam.h \
-    FFT/fftreal/FFTRealPassDirect.h \
-    FFT/fftreal/FFTRealPassDirect.hpp \
-    FFT/fftreal/FFTRealPassInverse.h \
-    FFT/fftreal/FFTRealPassInverse.hpp \
-    FFT/fftreal/FFTRealSelect.h \
-    FFT/fftreal/FFTRealSelect.hpp \
-    FFT/fftreal/FFTRealUseTrigo.h \
-    FFT/fftreal/FFTRealUseTrigo.hpp \
-    FFT/fftreal/OscSinCos.h \
-    FFT/fftreal/OscSinCos.hpp \
-    FFT/headers/qcomplexnumber.h \
-    FFT/headers/qfouriercalculator.h \
-    FFT/headers/qfourierfixedcalculator.h \
-    FFT/headers/qfouriertransformer.h \
-    FFT/headers/qfouriervariablecalculator.h \
-    FFT/headers/qwindowfunction.h
+    Hardware/audiointerface.h \
+    Logic/fastfouriertransform.h \
+    View/audioamplitudevizualizer.h \
+    View/audiofrequencyvizualizer.h
+
 
 FORMS += \
         mainwindow.ui
