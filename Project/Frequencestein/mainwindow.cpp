@@ -10,12 +10,18 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     isSoundActive(false),
     isFrequencyActive(false),
+    isLightActive(false),
     timeForPlot(QTime::currentTime()),
     QMainWindow(parent),
+    lightSensor(new QLightSensor()),
+    lightReader(new QLightReading()),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupGraphs();
+
+    lightReader = lightSensor->reading();
+    connect((audioInterface.audioInfo).data(), SIGNAL(update()), this, SLOT(realtimeDataSlot2()));
 
     /* Open window maximized when application started.
     this->move(0,0);

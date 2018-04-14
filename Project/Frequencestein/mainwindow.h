@@ -6,6 +6,10 @@
 #include <QAudioRecorder>
 #include <QTimer>
 #include <complex>
+#include <QAmbientLightSensor>
+#include <QAmbientLightReading>
+#include <QLightSensor>
+#include <QLightReading>
 #include "qcustomplot.h"
 #include "Hardware/audiointerface.h"
 #include "View/audioamplitudevizualizer.h"
@@ -28,6 +32,7 @@ private:
 
     bool isSoundActive;
     bool isFrequencyActive;
+    bool isLightActive;
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
@@ -36,6 +41,8 @@ private:
     AudioFrequencyVizualizer* frequencyVizualizer;
     QTime timeForPlot;
     QCPBars* frequencyBars;
+    QLightSensor* lightSensor;
+    QLightReading* lightReader;
 
     void ActivateSoundSystem();
     void DeactivateSoundSystem();
@@ -43,6 +50,8 @@ private:
 public slots:
 
 private slots:
+    //void on_startButton3_clicked();
+    //void on_startButton3_clicked();
     void on_startAmplitudeButton_clicked();
     void on_startFrequencyButton_clicked();
 };
