@@ -11,8 +11,9 @@
 #include <QLightSensor>
 #include <QLightReading>
 #include "qcustomplot.h"
-#include "audiointerface.h"
-#include "fastfouriertransform.h"
+#include "Hardware/audiointerface.h"
+#include "View/audioamplitudevizualizer.h"
+#include "View/audiofrequencyvizualizer.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,13 +27,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private:
-    void setupGraph();
-    void setupTimer();
-
-    void updateSoundDiagram(double, double);
-    void releaseFrequencyBars(QVector<double>, QVector<double>);
+    void setupGraphs();
     void soundControlActivate();
-    void setupWaveform(QVector<double> x, QVector<double> y);
 
     bool isSoundActive;
     bool isFrequencyActive;
@@ -41,6 +37,8 @@ private:
     Ui::MainWindow *ui;
     QTimer *timer;
     AudioInterface audioInterface;
+    AudioAmplitudeVizualizer* amplitudeVizualizer;
+    AudioFrequencyVizualizer* frequencyVizualizer;
     QTime timeForPlot;
     QCPBars* frequencyBars;
     QLightSensor* lightSensor;
@@ -50,8 +48,7 @@ private:
     void DeactivateSoundSystem();
 
 public slots:
-    void realtimeDataSlot();
-    void realtimeDataSlot2();
+
 private slots:
     //void on_startButton3_clicked();
     //void on_startButton3_clicked();
