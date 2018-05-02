@@ -32,7 +32,8 @@ SOURCES += \
     Hardware/audiointerface.cpp \
     Logic/fastfouriertransform.cpp \
     View/audioamplitudevizualizer.cpp \
-    View/audiofrequencyvizualizer.cpp
+    View/audiofrequencyvizualizer.cpp \
+    View/lightamplitudevisualizer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,8 +41,8 @@ HEADERS += \
     Hardware/audiointerface.h \
     Logic/fastfouriertransform.h \
     View/audioamplitudevizualizer.h \
-    View/audiofrequencyvizualizer.h
-
+    View/audiofrequencyvizualizer.h \
+    View/lightamplitudevisualizer.h
 
 FORMS += \
         mainwindow.ui
