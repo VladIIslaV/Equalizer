@@ -4,16 +4,13 @@
 #include <QMainWindow>
 #include <QTime>
 #include <QAudioRecorder>
-#include <QTimer>
-#include <complex>
 #include <QAmbientLightSensor>
 #include <QAmbientLightReading>
-#include <QLightSensor>
-#include <QLightReading>
 #include "qcustomplot.h"
 #include "Hardware/audiointerface.h"
 #include "View/audioamplitudevizualizer.h"
 #include "View/audiofrequencyvizualizer.h"
+#include "View/lightamplitudevisualizer.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +26,7 @@ public:
 private:
     void setupGraphs();
     void soundControlActivate();
+    void lightControlActivate();
 
     bool isSoundActive;
     bool isFrequencyActive;
@@ -39,13 +37,16 @@ private:
     AudioInterface audioInterface;
     AudioAmplitudeVizualizer* amplitudeVizualizer;
     AudioFrequencyVizualizer* frequencyVizualizer;
+    LightAmplitudeVisualizer* lightVisualizer;
     QTime timeForPlot;
     QCPBars* frequencyBars;
     QLightSensor* lightSensor;
     QLightReading* lightReader;
-
     void ActivateSoundSystem();
     void DeactivateSoundSystem();
+
+    void ActivateLightSystem();
+    void DeactivateLightSystem();
 
 public slots:
 
@@ -54,6 +55,7 @@ private slots:
     //void on_startButton3_clicked();
     void on_startAmplitudeButton_clicked();
     void on_startFrequencyButton_clicked();
+    void on_startLightButton_clicked();
 };
 
 #endif // MAINWINDOW_H
