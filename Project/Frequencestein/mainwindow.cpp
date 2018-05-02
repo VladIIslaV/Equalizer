@@ -13,14 +13,14 @@ MainWindow::MainWindow(QWidget *parent) :
     isLightActive(false),
     timeForPlot(QTime::currentTime()),
     QMainWindow(parent),
-    lightSensor(new QLightSensor(this)),
+    //lightSensor(new QLightSensor(this)),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupGraphs();
 
-    lightSensor->start();
-    lightReader = lightSensor->reading();
+    //lightSensor->start();
+    //lightReader = lightSensor->reading();
 
     //connect((audioInterface.audioInfo).data(), SIGNAL(update()), this, SLOT(realtimeDataSlot2()));
 
@@ -49,7 +49,7 @@ void MainWindow::ActivateSoundSystem()
     timeForPlot.restart();
     amplitudeVizualizer->activate();
     audioInterface.start();
-    ui->startAmplitudeButton->setText("||");
+    //ui->startAmplitudeButton->setText("||");
     ui->startAmplitudeButton->setStyleSheet("background-color: rgb(255, 0, 0);");
     ui->startFrequencyButton->setText("STOP");
     ui->label2->setText("Input on");
@@ -61,10 +61,10 @@ void MainWindow::DeactivateSoundSystem()
     audioInterface.stop();
     amplitudeVizualizer->deactivate();
     //ui->soundInfoLabel->setText("Press START button");
-    ui->startAmplitudeButton->setText("|>");
+    //ui->startAmplitudeButton->setText("|>");
     ui->startAmplitudeButton->setStyleSheet("background-color: rgb(0, 255, 0);");
     ui->startFrequencyButton->setText("START");
-    //ui->label2->setText("Input off");
+    ui->label2->setText("Input off");
     isSoundActive = false;
 }
 
