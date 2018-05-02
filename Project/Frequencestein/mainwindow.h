@@ -42,6 +42,8 @@ private:
     QCPBars* frequencyBars;
     QLightSensor* lightSensor;
     QLightReading* lightReader;
+    //QTimer* timer;
+
     void ActivateSoundSystem();
     void DeactivateSoundSystem();
 
