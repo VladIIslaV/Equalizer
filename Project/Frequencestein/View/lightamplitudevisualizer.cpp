@@ -2,11 +2,14 @@
 
 LightAmplitudeVisualizer::LightAmplitudeVisualizer(QCustomPlot *inAmplitudeGraph)
 {
+    QPen my_pen(QColor(255, 0, 0));
+    my_pen.setWidth(5);
+
     amplitudeGraph = inAmplitudeGraph;
     amplitudeGraph->addGraph();
     amplitudeGraph->setNoAntialiasingOnDrag(true); // This is for performance improvement.
     amplitudeGraph->setNotAntialiasedElement(QCP::aeAll); // This is for performance improvement.
-    amplitudeGraph->graph(0)->setPen(QPen(QColor(255, 0, 0))); // Red line.
+    amplitudeGraph->graph(0)->setPen(my_pen); // Red line.
     amplitudeGraph->axisRect()->setupFullAxesBox();
     amplitudeGraph->yAxis->setRange(0, 1000);
     amplitudeGraph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);

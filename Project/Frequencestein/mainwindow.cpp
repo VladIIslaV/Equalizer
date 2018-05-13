@@ -50,9 +50,11 @@ void MainWindow::ActivateSoundSystem()
     amplitudeVizualizer->activate();
     audioInterface.start();
     //ui->startAmplitudeButton->setText("||");
-    ui->startAmplitudeButton->setStyleSheet("background-color: rgb(255, 0, 0);");
+    ui->startAmplitudeButton->setStyleSheet("border: none; background-color: rgb(255, 0, 0);");
+    ui->startFrequencyButton->setStyleSheet("border: none; background-color: rgb(255, 0, 0);");
+    ui->startAmplitudeButton->setText("STOP");
     ui->startFrequencyButton->setText("STOP");
-    ui->label2->setText("Input on");
+    //ui->label2->setText("Input on");
     isSoundActive = true;
 }
 
@@ -62,9 +64,13 @@ void MainWindow::DeactivateSoundSystem()
     amplitudeVizualizer->deactivate();
     //ui->soundInfoLabel->setText("Press START button");
     //ui->startAmplitudeButton->setText("|>");
-    ui->startAmplitudeButton->setStyleSheet("background-color: rgb(0, 255, 0);");
+    //ui->startAmplitudeButton->setStyleSheet("background-color: rgb(0, 255, 0);");
+    //ui->startFrequencyButton->setText("START");
+    //ui->label2->setText("Input off");
+    ui->startAmplitudeButton->setStyleSheet("border: none; background-color: rgb(0, 255, 0);");
+    ui->startFrequencyButton->setStyleSheet("border: none; background-color: rgb(0, 255, 0);");
+    ui->startAmplitudeButton->setText("START");
     ui->startFrequencyButton->setText("START");
-    ui->label2->setText("Input off");
     isSoundActive = false;
 }
 
