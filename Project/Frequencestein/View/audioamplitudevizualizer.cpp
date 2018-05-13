@@ -6,12 +6,22 @@ using namespace std;
 AudioAmplitudeVizualizer::AudioAmplitudeVizualizer(QCustomPlot* inAmplitudeGraph, AudioInterface* inAudioInterface)
 {
     amplitudeGraph = inAmplitudeGraph;
-    amplitudeGraph->addGraph();
+    amplitudeGraph->addGraph(amplitudeGraph->xAxis, amplitudeGraph->yAxis2);
     amplitudeGraph->setNoAntialiasingOnDrag(true); // This is for performance improvement.
     amplitudeGraph->setNotAntialiasedElement(QCP::aeAll); // This is for performance improvement.
-    amplitudeGraph->graph(0)->setPen(QPen(QColor(40, 110, 255))); // Blue line.
-    amplitudeGraph->axisRect()->setupFullAxesBox();
-    amplitudeGraph->yAxis->setRange(-100, 100);
+    QPen pen(QBrush(QColor(40, 110, 255)), 3);
+    amplitudeGraph->graph(0)->setPen(pen); // Blue line.
+    amplitudeGraph->axisRect()->setAutoMargins(QCP::msNone);
+    amplitudeGraph->axisRect()->setMargins(QMargins(0,0,0,0));
+    amplitudeGraph->yAxis->setVisible(false);
+
+    amplitudeGraph->yAxis2->setRange(0, 1);
+    //amplitudeGraph->yAxis2->setVisible(true);
+    amplitudeGraph->yAxis2->grid()->setVisible(true);
+
+    amplitudeGraph->xAxis->setVisible(false);
+    amplitudeGraph->xAxis->grid()->setVisible(false);
+
     amplitudeGraph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     audioInterface = inAudioInterface;
@@ -39,12 +49,19 @@ void AudioAmplitudeVizualizer::plotSlot()
     for (int i = 0; i < amplitudeSampleSize; i++)
     {
         double x = keyPoint;
-        double y = amplitudeSample[i]; // divide by (double)INT32_MAX to fit [0..1]
+        double y = amplitudeSample[i] / (double)INT32_MAX; // divide by (double)INT32_MAX to fit [0..1]
         amplitudeGraph->graph(0)->addData(x, y);
         keyPoint += 0.01;
     }
 
-    amplitudeGraph->xAxis->setRange(lastKeyPoint, 4, Qt::AlignRight);
-    amplitudeGraph->yAxis->rescale(true);
+    static double lastDeletedKeyPoint;
+    if(keyPoint - lastDeletedKeyPoint > amplitudeSampleSize)
+    {
+        lastDeletedKeyPoint = keyPoint - (amplitudeSampleSize * 0.3);
+        amplitudeGraph->graph(0)->removeData(0, lastDeletedKeyPoint);
+    }
+
+    amplitudeGraph->xAxis->setRange(lastKeyPoint, 3, Qt::AlignRight);
+    amplitudeGraph->yAxis2->rescale(true);
     amplitudeGraph->replot();
 }

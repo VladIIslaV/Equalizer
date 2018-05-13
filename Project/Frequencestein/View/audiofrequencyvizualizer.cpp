@@ -13,10 +13,14 @@ AudioFrequencyVizualizer::AudioFrequencyVizualizer(QCustomPlot* inFrequencyGraph
     frequencyBars->setBrush(QColor(205,100,0, 150));
     frequencyBars->setPen(pen);
 
-    frequencyGraph->axisRect()->setupFullAxesBox();
-    frequencyGraph->xAxis->setRange(0, 16);
+    //frequencyGraph->axisRect()->setAutoMargins(QCP::msNone);
+    //frequencyGraph->axisRect()->setMargins(QMargins(0,0,0,0));
+    frequencyGraph->yAxis->setVisible(false);
     frequencyGraph->yAxis->setRange(0, 20);
+
     frequencyGraph->xAxis->setLabel("kHz");
+    frequencyGraph->xAxis->setRange(0, 16);
+    frequencyGraph->xAxis->grid()->setVisible(false);
 
     audioInterface = inAudioInterface;
     connect((audioInterface->audioInfo).data(), SIGNAL(update()), this, SLOT(plotSlot()));
@@ -24,12 +28,12 @@ AudioFrequencyVizualizer::AudioFrequencyVizualizer(QCustomPlot* inFrequencyGraph
 
 void AudioFrequencyVizualizer::activate()
 {
-
+    // While does nothing.
 }
 
 void AudioFrequencyVizualizer::deactivate()
 {
-
+    // While do nothing.
 }
 
 void AudioFrequencyVizualizer::plotSlot()

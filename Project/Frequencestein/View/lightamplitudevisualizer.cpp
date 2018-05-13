@@ -14,19 +14,12 @@ LightAmplitudeVisualizer::LightAmplitudeVisualizer(QCustomPlot *inAmplitudeGraph
     amplitudeGraph->yAxis->setRange(0, 1000);
     amplitudeGraph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-<<<<<<< HEAD
-    lightSensor = new QLightSensor();
-=======
-    lightSensor = new QLightSensor(this);
 
->>>>>>> 6d7407e9a8e630ff3e832619351deecd73d5c8ce
+    // Comment to debug with PC.
+    lightSensor = new QLightSensor(this);
     lightSensor->start();
-    //lightSensor->reading();
+    // don't uncomment //lightSensor->reading();
     lightReader = lightSensor->reading();
-<<<<<<< HEAD
-    lightReader->lux();
-=======
->>>>>>> 6d7407e9a8e630ff3e832619351deecd73d5c8ce
 
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(plotSlot()));
