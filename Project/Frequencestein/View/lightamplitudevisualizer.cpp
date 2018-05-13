@@ -10,10 +10,13 @@ LightAmplitudeVisualizer::LightAmplitudeVisualizer(QCustomPlot *inAmplitudeGraph
     amplitudeGraph->axisRect()->setupFullAxesBox();
     amplitudeGraph->yAxis->setRange(-100, 100);
     amplitudeGraph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-/*
+
+    lightSensor = new QLightSensor();
     lightSensor->start();
+    //lightSensor->reading();
     lightReader = lightSensor->reading();
-*/
+    lightReader->lux();
+
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(plotSlot()));
     timer->start(10);
@@ -36,6 +39,7 @@ void LightAmplitudeVisualizer::plotSlot()
     double lastKeyPoint = keyPoint;
 
     double x = keyPoint;//timer->remainingTime();
+    //double y = 0;
     double y = lightReader->lux();
     amplitudeGraph->graph(0)->addData(x, y);
     keyPoint+= 0.01;
