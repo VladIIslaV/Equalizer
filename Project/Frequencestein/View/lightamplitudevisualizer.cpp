@@ -22,7 +22,9 @@ LightAmplitudeVisualizer::LightAmplitudeVisualizer(QCustomPlot *inAmplitudeGraph
     lightReader = lightSensor->reading();
 
     timer = new QTimer();
+#ifdef __ANDROID__
     connect(timer, SIGNAL(timeout()), this, SLOT(plotSlot()));
+#endif
     timer->start(10);
 }
 
