@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>390</height>
+    <width>582</width>
+    <height>415</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -60,7 +60,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>true</bool>
@@ -229,6 +229,12 @@ border: none;
         </property>
         <item>
          <widget class="QScrollArea" name="scrollArea">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="layoutDirection">
            <enum>Qt::LeftToRight</enum>
           </property>
@@ -254,9 +260,9 @@ border: none;
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-349</y>
-             <width>239</width>
-             <height>1522</height>
+             <y>0</y>
+             <width>561</width>
+             <height>971</height>
             </rect>
            </property>
            <property name="sizePolicy">

@@ -9,7 +9,7 @@ AudioAmplitudeVizualizer::AudioAmplitudeVizualizer(QCustomPlot* inAmplitudeGraph
     amplitudeGraph->addGraph(amplitudeGraph->xAxis, amplitudeGraph->yAxis2);
     amplitudeGraph->setNoAntialiasingOnDrag(true); // This is for performance improvement.
     amplitudeGraph->setNotAntialiasedElement(QCP::aeAll); // This is for performance improvement.
-    QPen pen(QBrush(QColor(40, 110, 255)), 3);
+    QPen pen(QBrush(QColor(255, 0, 0)), 1);
     amplitudeGraph->graph(0)->setPen(pen); // Blue line.
     amplitudeGraph->axisRect()->setAutoMargins(QCP::msNone);
     amplitudeGraph->axisRect()->setMargins(QMargins(0,0,0,0));
