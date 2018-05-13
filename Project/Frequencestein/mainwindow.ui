@@ -38,8 +38,14 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <property name="usesScrollButtons">
        <bool>true</bool>
@@ -65,17 +71,47 @@
         <string>Sound</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="1">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item row="0" column="0" colspan="4">
+         <widget class="QCustomPlot" name="graphicAmplitude" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" colspan="2">
          <widget class="QPushButton" name="startAmplitudeButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <kerning>false</kerning>
+           </font>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 255, 0);
+border: none;
+
 </string>
           </property>
           <property name="text">
-           <string>|&gt;</string>
+           <string notr="true">START</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
           </property>
           <property name="autoExclusive">
            <bool>false</bool>
@@ -91,74 +127,31 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0" colspan="3">
-         <widget class="QCustomPlot" name="graphicAmplitude" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);
-</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="freqPage">
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(85, 170, 127);</string>
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <attribute name="title">
         <string>Frequency</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0" colspan="2">
-         <widget class="QCustomPlot" name="graphicFrequency" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label2">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="text">
-           <string>Press start</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
+        <item row="1" column="1" colspan="2">
          <widget class="QPushButton" name="startFrequencyButton">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
+           <string notr="true">background-color: rgb(255, 255, 255);
+border: none;</string>
           </property>
           <property name="text">
            <string>START</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="4">
+         <widget class="QCustomPlot" name="graphicFrequency" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
          </widget>
         </item>
