@@ -10,10 +10,13 @@ LightAmplitudeVisualizer::LightAmplitudeVisualizer(QCustomPlot *inAmplitudeGraph
     amplitudeGraph->setNoAntialiasingOnDrag(true); // This is for performance improvement.
     amplitudeGraph->setNotAntialiasedElement(QCP::aeAll); // This is for performance improvement.
     amplitudeGraph->graph(0)->setPen(my_pen); // Red line.
-    amplitudeGraph->axisRect()->setupFullAxesBox();
+    //amplitudeGraph->axisRect()->setupFullAxesBox();
     amplitudeGraph->yAxis->setRange(0, 1000);
     amplitudeGraph->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
+    //amplitudeGraph->yAxis->setVisible(false);
+    amplitudeGraph->yAxis->setLabel("LUX");
+    amplitudeGraph->xAxis->setVisible(false);
 
     // Comment to debug with PC.
     lightSensor = new QLightSensor(this);
@@ -46,8 +49,7 @@ void LightAmplitudeVisualizer::plotSlot()
     static double keyPoint = 0;
     double lastKeyPoint = keyPoint;
 
-    double x = keyPoint;//timer->remainingTime();
-    //double y = 0;
+    double x = keyPoint; //timer->remainingTime();
     double y = lightReader->lux();
     y = y < 900 ? y : 900;
     amplitudeGraph->graph(0)->addData(x, y);
